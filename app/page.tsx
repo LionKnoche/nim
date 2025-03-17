@@ -1,4 +1,6 @@
 'use client'
+import React from 'react'
+import ReactMarkdown from 'react-markdown'
 import { motion } from 'motion/react'
 import { XIcon } from 'lucide-react'
 import { Spotlight } from '@/components/ui/spotlight'
@@ -123,6 +125,18 @@ function MagneticSocialLink({
   )
 }
 
+// Definiere den Markdown-Inhalt für die Einleitung
+const markdownContent = `
+**Hallo und herzlich willkommen in meinem Online-Portfolio!**
+
+Ich freue mich sehr, dass du den Weg hierher gefunden hast. Ich bin Lion – und hier findest du alles Wichtige über mich und meine Projekte, klar, anschaulich und dynamisch präsentiert.  *Garantiert spannender als ein herkömmlicher Lebenslauf!*  
+
+
+
+
+
+`
+
 export default function Personal() {
   return (
     <motion.main
@@ -131,18 +145,19 @@ export default function Personal() {
       initial="hidden"
       animate="visible"
     >
+      {/* Einleitungs-Sektion als Markdown */}
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
         <div className="flex-1">
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Focused on creating intuitive and performant web experiences.
-            Bridging the gap between design and development.
-          </p>
+          <div className="text-zinc-600 dark:text-zinc-400">
+            <ReactMarkdown>{markdownContent}</ReactMarkdown>
+          </div>
         </div>
       </motion.section>
 
+      {/* Projekte-Sektion */}
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
@@ -172,11 +187,12 @@ export default function Personal() {
         </div>
       </motion.section>
 
+      {/* Work Experience-Sektion */}
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        <h3 className="mb-5 text-lg font-medium">Work Experience</h3>
+        <h3 className="mb-5 text-lg font-medium">Erfahrungen</h3>
         <div className="flex flex-col space-y-2">
           {WORK_EXPERIENCE.map((job) => (
             <a
@@ -210,6 +226,7 @@ export default function Personal() {
         </div>
       </motion.section>
 
+      {/* Blog-Sektion */}
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
@@ -246,6 +263,7 @@ export default function Personal() {
         </div>
       </motion.section>
 
+      {/* Connect-Sektion */}
       <motion.section
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}

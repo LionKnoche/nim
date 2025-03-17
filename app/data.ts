@@ -49,19 +49,20 @@ export const PROJECTS: Project[] = [
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
-    company: 'Reglazed Studio',
-    title: 'CEO',
+    company: 'Werkstudent',
+    title: 'Choya Umeshu Germany',
     start: '2024',
     end: 'Present',
-    link: 'https://ibelick.com',
+    link: '/blog/Werkstudent_Choya',
+    uid: 'blog-1',
     id: 'work1',
   },
   {
-    company: 'Freelance',
-    title: 'Design Engineer',
+    company: 'Werkstudent',
+    title: 'Sushi Matsumoto',
     start: '2022',
     end: '2024',
-    link: 'https://ibelick.com',
+    link: '/blog/Werkstudent_Sushi_Matsumoto',
     id: 'work2',
   },
   {
@@ -78,14 +79,14 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     title: 'Exploring the Intersection of Design, AI, and Design Engineering',
     description: 'How AI is changing the way we design',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
+    link: '/Werkstudent_Choya',
     uid: 'blog-1',
   },
   {
     title: 'Why I left my job to start my own company',
     description:
       'A deep dive into my decision to leave my job and start my own company',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
+    link: '/Werkstudent_Sushi_Matsumoto',
     uid: 'blog-2',
   },
   {
