@@ -54,7 +54,6 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     start: '2024',
     end: 'Present',
     link: '/blog/Werkstudent_Choya',
-    uid: 'blog-1',
     id: 'work1',
   },
   {
@@ -74,6 +73,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     id: 'work3',
   },
 ]
+
 
 export const BLOG_POSTS: BlogPost[] = [
   {
