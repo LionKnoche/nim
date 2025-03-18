@@ -10,9 +10,9 @@ type WorkExperience = {
   company: string
   title: string
   start: string
-  end: string
-  link: string
-  id: string
+  end?: string
+  link?: string
+  id?: string
 }
 
 type BlogPost = {
@@ -65,21 +65,29 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
     id: 'work2',
   },
   {
-    company: 'Freelance',
-    title: 'Front-end Developer',
-    start: '2017',
-    end: 'Present',
-    link: 'https://ibelick.com',
+    company: 'Verwaltungspraktikum',
+    title: 'Finanzamt Hilden',
+    start: '2021',
+    link: '/blog/Finanzamt_Hilden',
     id: 'work3',
   },
+  {
+    company: 'Schülerpraktikum',
+    title: 'Volksbank im Bergischen Land',
+    start: '2018',
+  },
+  {
+    company: 'Schülerpraktikum',
+    title: 'Knipex',
+    start: '2015',
+  },
 ]
-
 
 export const BLOG_POSTS: BlogPost[] = [
   {
     title: 'Exploring the Intersection of Design, AI, and Design Engineering',
     description: 'How AI is changing the way we design',
-    link: '/Werkstudent_Choya',
+    link: '/blog/Werkstudent_Choya',
     uid: 'blog-1',
   },
   {

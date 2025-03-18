@@ -130,11 +130,6 @@ const markdownContent = `
 **Hallo und herzlich willkommen in meinem Online-Portfolio!**
 
 Ich freue mich sehr, dass du den Weg hierher gefunden hast. Ich bin Lion – und hier findest du alles Wichtige über mich und meine Projekte, klar, anschaulich und dynamisch präsentiert.  *Garantiert spannender als ein herkömmlicher Lebenslauf!*  
-
-
-
-
-
 `
 
 export default function Personal() {
@@ -165,7 +160,7 @@ export default function Personal() {
         <h3 className="mb-5 text-lg font-medium">Selected Projects</h3>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {PROJECTS.map((project) => (
-            <div key={project.name} className="space-y-2">
+            <div key={project.id} className="space-y-2">
               <div className="relative rounded-2xl bg-zinc-50/40 p-1 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950/40 dark:ring-zinc-800/50">
                 <ProjectVideo src={project.video} />
               </div>
@@ -194,35 +189,51 @@ export default function Personal() {
       >
         <h3 className="mb-5 text-lg font-medium">Erfahrungen</h3>
         <div className="flex flex-col space-y-2">
-          {WORK_EXPERIENCE.map((job) => (
-            <a
-              className="relative overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
-              href={job.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={job.id}
-            >
-              <Spotlight
-                className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
-                size={64}
-              />
-              <div className="relative h-full w-full rounded-[15px] bg-white p-4 dark:bg-zinc-950">
-                <div className="relative flex w-full flex-row justify-between">
-                  <div>
-                    <h4 className="font-normal dark:text-zinc-100">
-                      {job.title}
-                    </h4>
-                    <p className="text-zinc-500 dark:text-zinc-400">
-                      {job.company}
-                    </p>
-                  </div>
-                  <p className="text-zinc-600 dark:text-zinc-400">
-                    {job.start} - {job.end}
-                  </p>
-                </div>
-              </div>
-            </a>
-          ))}
+        {WORK_EXPERIENCE.map((job, index) => {
+  const hasLink = Boolean(job.link);
+  const key = job.id || `${job.company}-${job.title}-${index}`;
+
+  // Gemeinsamer Inhalt für die "Karte"
+  const cardContent = (
+    <>
+      <Spotlight
+        className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
+        size={64}
+      />
+      <div className="relative h-full w-full rounded-[15px] bg-white p-4 dark:bg-zinc-950">
+        <div className="relative flex w-full flex-row justify-between">
+          <div>
+            <h4 className="font-normal dark:text-zinc-100">{job.title}</h4>
+            <p className="text-zinc-500 dark:text-zinc-400">{job.company}</p>
+          </div>
+          <p className="text-zinc-600 dark:text-zinc-400">
+            {job.end ? `${job.start} - ${job.end}` : `${job.start} `}
+          </p>
+        </div>
+      </div>
+    </>
+  );
+
+  // Falls job.link vorhanden ist, rendern wir <a>, sonst <span>
+  return hasLink ? (
+    <a
+      key={key}
+      className="relative overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
+      href={job.link}
+      rel="noopener noreferrer"
+    >
+      {cardContent}
+    </a>
+  ) : (
+    <span
+      key={key}
+      className="relative block overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
+    >
+      {cardContent}
+    </span>
+  );
+})}
+
         </div>
       </motion.section>
 
