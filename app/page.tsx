@@ -182,13 +182,47 @@ export default function Personal() {
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null)
   const [activeSkillType, setActiveSkillType] = useState<ActiveSkillType>('hard')
 
+  // Beispiel-Array für Sprachkenntnisse (unverändert)
+  const languages = [
+    {
+      name: 'Englisch',
+      level: 'C1',
+      description:
+        'Fließend in Wort und Schrift – ideal für internationale Geschäftsbeziehungen.',
+      sequence:
+        'I look forward to our fruitful collaboration. Can you keep up with this fast-paced text?'
+    },
+    {
+      name: 'Spanisch',
+      level: 'B2',
+      description:
+        'Gute Kenntnisse, besonders in Konversation und Leseverständnis.',
+      sequence:
+        'Estoy deseando colaborar contigo. ¿Puedes lesen diese spannende Sprachsequenz?'
+    },
+    {
+      name: 'Französisch',
+      level: 'B1',
+      description: 'Solide Grundkenntnisse und ein gutes Hörverständnis.',
+      sequence:
+        'Je suis prêt à relever des défis. Laisse-toi emporter par cette séquence langagière!'
+    },
+    {
+      name: 'Japanisch',
+      level: 'A2',
+      description: 'Grundkenntnisse, die sich stetig verbessern.',
+      sequence:
+        'はじめまして、よろしくお願いします。Diese fließende Sequenz zeigt dir mein Niveau!'
+    }
+  ]
+
   const activeBtnClass =
     'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800'
   const inactiveBtnClass =
     'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-  const baseBtnClass = 'px-3 py-1 text-sm rounded transition-all duration-200'
+  const baseBtnClass = 'px-3 py-1 text-sm rounded-xl transition-all duration-200'
   const skillBoxClasses =
-    'p-4 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-950'
+    'p-4 border border-zinc-300 dark:border-zinc-600 rounded-xl bg-white dark:bg-zinc-950'
 
   return (
     <motion.main
@@ -231,7 +265,7 @@ export default function Personal() {
               return (
                 <div
                   key={key}
-                  className="relative block overflow-hidden rounded-md border border-zinc-300 dark:border-zinc-600 p-1 group"
+                  className="relative block overflow-hidden rounded-xl border border-zinc-300 dark:border-zinc-600 p-1 group"
                   onMouseEnter={() => setHoveredItemId(edu.id)}
                   onMouseLeave={() => setHoveredItemId(null)}
                   style={{ cursor: hasDetails || hasCertificate ? 'pointer' : 'default' }}
@@ -241,7 +275,7 @@ export default function Personal() {
                     size={64}
                   />
                   {/* Hauptinhaltsbereich */}
-                  <div className="relative h-full w-full rounded-md bg-white dark:bg-zinc-950 min-h-[80px] flex items-center">
+                  <div className="relative h-full w-full rounded-xl bg-white dark:bg-zinc-950 min-h-[80px] flex items-center">
                     {renderBoxContent(edu, hoveredItemId === edu.id && hasDetails)}
                   </div>
 
@@ -253,11 +287,11 @@ export default function Personal() {
                         target="_blank"
                         rel="noopener noreferrer"
                         title="Zertifikat öffnen"
-                        className="absolute top-1 right-1 bottom-1 w-10
+                        className="absolute top-1 right-1 bottom-1 w-10 px-2
                                    bg-white/20 dark:bg-zinc-800/20
                                    backdrop-blur-md
                                    border-l border-zinc-300 dark:border-zinc-600
-                                   rounded-r-md
+                                   rounded-r-xl
                                    flex items-center justify-center
                                    cursor-pointer z-10"
                         initial={{ opacity: 0, x: 15 }}
@@ -289,7 +323,7 @@ export default function Personal() {
               return (
                 <WrapperElement
                   key={key}
-                  className="relative block overflow-hidden rounded-md border border-zinc-300 dark:border-zinc-600 p-1 group"
+                  className="relative block overflow-hidden rounded-xl border border-zinc-300 dark:border-zinc-600 p-1 group"
                   onMouseEnter={hasDetails ? () => setHoveredItemId(job.id!) : undefined}
                   onMouseLeave={() => setHoveredItemId(null)}
                   style={{ cursor: hasDetails || hasLink ? 'pointer' : 'default' }}
@@ -299,7 +333,7 @@ export default function Personal() {
                     className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
                     size={64}
                   />
-                  <div className="relative h-full w-full rounded-md bg-white dark:bg-zinc-950 min-h-[80px] flex items-center">
+                  <div className="relative h-full w-full rounded-xl bg-white dark:bg-zinc-950 min-h-[80px] flex items-center">
                     {renderBoxContent(job, hoveredItemId === job.id)}
                   </div>
                 </WrapperElement>
@@ -373,7 +407,7 @@ export default function Personal() {
                 {languages.map((lang) => (
                   <motion.div
                     key={lang.name}
-                    className="relative overflow-hidden p-4 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-950 hover:shadow-lg transition-shadow duration-300"
+                    className="relative overflow-hidden p-4 border border-zinc-300 dark:border-zinc-600 rounded-xl bg-white dark:bg-zinc-950 hover:shadow-lg transition-shadow duration-300"
                     initial="rest"
                     animate="rest"
                     whileHover="hover"
@@ -439,7 +473,7 @@ export default function Personal() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {PROJECTS.map((project) => (
             <div key={project.id} className="space-y-2">
-              <div className="relative rounded-md border border-zinc-200 dark:border-zinc-800 p-1">
+              <div className="relative rounded-xl border border-zinc-200 dark:border-zinc-800 p-1">
                 <ProjectVideo src={project.video} />
               </div>
               <div className="px-1">
