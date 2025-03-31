@@ -80,7 +80,7 @@ const HardSkillsVisualization: React.FC = () => {
                     `}
                   >
                     <span className="shrink-0 w-5 h-5 flex items-center justify-center">
-                      {React.cloneElement(skill.icon, { size: 20 })}
+                    { React.cloneElement(skill.icon) }
                     </span>
                     <span>{skill.name}</span>
                   </div>
