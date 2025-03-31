@@ -18,9 +18,7 @@ import { XIcon } from 'lucide-react'
 
 // Deine Visualisierungen
 import SoftSkillsVisualization from '@/components/ui/SoftSkillsVisualization'
-// --- Importiere die neue Komponente ---
-import HardSkillsVisualization from '@/components/ui/HardSkillsVisualization'
- // <-- Passe den Pfad ggf. an
+import HardSkillsVisualization from '@/components/ui/HardSkillsVisualization' // <-- Passe den Pfad ggf. an
 
 // Daten-Imports
 import {
@@ -184,13 +182,25 @@ const renderBoxContent = (
   );
 };
 
+// Definiere den Typ für die aktiven Fähigkeiten
+type ActiveSkillType = 'hard' | 'soft' | 'languages';
 
 export default function Personal() {
-  // Standard: Hard Skills / Ausbildung
-  const [showSoftSkills, setShowSoftSkills] = useState(false)
+  // State für Lebenslauf-Sektion
   const [showEducation, setShowEducation] = useState(true)
   // State für Hover-Effekt (gemeinsam für Ausbildung & Erfahrung)
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
+  // State für Fähigkeiten-Sektion (ersetzt showSoftSkills)
+  const [activeSkillType, setActiveSkillType] = useState<ActiveSkillType>('hard'); // Standard: Hard Skills
+
+  // CSS Klassen für Buttons (Active/Inactive)
+  const activeBtnClass = 'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800';
+  const inactiveBtnClass = 'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800';
+  const baseBtnClass = 'px-3 py-1 text-sm rounded transition-all duration-200';
+
+  // CSS Klassen für den Rahmen der Skill-Boxen
+  const skillBoxClasses = "p-4 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-950";
+
 
   return (
     <motion.main
@@ -219,21 +229,13 @@ export default function Personal() {
         <div className="flex space-x-2 mb-5">
            <button
             onClick={() => setShowEducation(true)}
-            className={`px-3 py-1 text-sm rounded transition-all duration-200 ${
-              showEducation
-                ? 'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800' // Highlight active button slightly more
-                : 'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-            }`}
+            className={`${baseBtnClass} ${ showEducation ? activeBtnClass : inactiveBtnClass }`}
           >
             Ausbildung
           </button>
           <button
             onClick={() => setShowEducation(false)}
-            className={`px-3 py-1 text-sm rounded transition-all duration-200 ${
-              !showEducation
-                ? 'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800' // Highlight active button slightly more
-                : 'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-            }`}
+            className={`${baseBtnClass} ${ !showEducation ? activeBtnClass : inactiveBtnClass }`}
           >
             Erfahrungen
           </button>
@@ -316,45 +318,50 @@ export default function Personal() {
         transition={TRANSITION_SECTION}
       >
         <h3 className="mb-3 text-lg font-semibold">Fähigkeiten</h3>
+        {/* --- Buttons zum Umschalten (jetzt mit 3 Optionen) --- */}
         <div className="flex space-x-2 mb-5">
           {/* Hard Skills Button */}
           <button
-            onClick={() => setShowSoftSkills(false)}
-            className={`px-3 py-1 text-sm rounded transition-all duration-200 ${
-              !showSoftSkills
-                ? 'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800'
-                : 'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-            }`}
+            onClick={() => setActiveSkillType('hard')}
+            className={`${baseBtnClass} ${ activeSkillType === 'hard' ? activeBtnClass : inactiveBtnClass }`}
           >
             Hard Skills
           </button>
            {/* Soft Skills Button */}
           <button
-            onClick={() => setShowSoftSkills(true)}
-             className={`px-3 py-1 text-sm rounded transition-all duration-200 ${
-              showSoftSkills
-                ? 'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800'
-                : 'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
-            }`}
+            onClick={() => setActiveSkillType('soft')}
+            className={`${baseBtnClass} ${ activeSkillType === 'soft' ? activeBtnClass : inactiveBtnClass }`}
           >
             Soft Skills
           </button>
+          {/* --- NEU: Sprachen Button --- */}
+          <button
+            onClick={() => setActiveSkillType('languages')}
+            className={`${baseBtnClass} ${ activeSkillType === 'languages' ? activeBtnClass : inactiveBtnClass }`}
+          >
+            Sprachen
+          </button>
         </div>
 
+        {/* --- Bedingte Anzeige basierend auf activeSkillType --- */}
         <AnimatePresence mode="wait">
-          {showSoftSkills ? (
+          {activeSkillType === 'soft' && (
              // --- Soft Skills Anzeige ---
             <motion.div
               key="soft"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden"
+              initial={{ opacity: 0 }} // Einfaches Fade-in für den Bereich
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              <SoftSkillsVisualization />
+              {/* --- NEU: Wrapper Div für Rahmen und Hintergrund --- */}
+              <div className={skillBoxClasses}>
+                <SoftSkillsVisualization />
+              </div>
             </motion.div>
-          ) : (
-             // --- Hard Skills Anzeige (mit neuer Komponente) ---
+          )}
+          {activeSkillType === 'hard' && (
+             // --- Hard Skills Anzeige ---
             <motion.div
               key="hard"
               initial={{ opacity: 0 }} // Einfaches Fade-in für den Bereich
@@ -362,8 +369,29 @@ export default function Personal() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {/* --- Verwende die neue HardSkillsVisualization Komponente --- */}
-              <HardSkillsVisualization />
+              {/* --- NEU: Wrapper Div für Rahmen und Hintergrund --- */}
+               <div className={skillBoxClasses}>
+                <HardSkillsVisualization />
+               </div>
+            </motion.div>
+          )}
+           {/* --- Sprachen Anzeige --- */}
+          {activeSkillType === 'languages' && (
+            <motion.div
+              key="languages"
+              initial={{ opacity: 0 }} // Einfaches Fade-in
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Darstellung der Sprachen mit Rahmen (wie im Bild) */}
+              {/* Hier verwenden wir die skillBoxClasses für Konsistenz, passen aber ggf. innere Layouts an */}
+              <div className={`${skillBoxClasses} grid grid-cols-2 gap-x-4 gap-y-2`}>
+                  <p className="text-zinc-800 dark:text-zinc-200">Englisch</p>
+                  <p className="text-zinc-800 dark:text-zinc-200">Spanisch</p>
+                  <p className="text-zinc-800 dark:text-zinc-200">Französisch</p>
+                  <p className="text-zinc-800 dark:text-zinc-200">Japanisch</p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -374,7 +402,6 @@ export default function Personal() {
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        {/* ... (Projects section remains the same) ... */}
          <h3 className="mb-3 text-lg font-semibold">Selected Projects</h3>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {PROJECTS.map((project) => (
@@ -406,7 +433,6 @@ export default function Personal() {
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-         {/* ... (Blog section remains the same) ... */}
         <h3 className="mb-3 text-lg font-semibold">Blog</h3>
         <div className="flex flex-col space-y-0">
           <AnimatedBackground
@@ -440,7 +466,6 @@ export default function Personal() {
         variants={VARIANTS_SECTION}
         transition={TRANSITION_SECTION}
       >
-        {/* ... (Connect section remains the same) ... */}
          <h3 className="mb-3 text-lg font-semibold">Connect</h3>
         <p className="mb-4 text-zinc-600 dark:text-zinc-400">
           Du möchtest mehr über meine Projekte erfahren oder dich vernetzen? Dann schreib mir gerne oder folge mir auf meinen Kanälen! {/* Adjusted text slightly */}
