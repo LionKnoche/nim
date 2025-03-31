@@ -1,4 +1,4 @@
-// src/app/(main)/page.tsx (oder wo immer deine Personal Komponente ist)
+// src/app/(main)/page.tsx
 'use client'
 import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -14,11 +14,13 @@ import {
   MorphingDialogClose,
   MorphingDialogContainer,
 } from '@/components/ui/morphing-dialog'
-import { XIcon } from 'lucide-react'
+
+// NEU: Filigranes Augensymbol statt FileTextIcon
+import { XIcon, EyeIcon } from 'lucide-react'
 
 // Deine Visualisierungen
 import SoftSkillsVisualization from '@/components/ui/SoftSkillsVisualization'
-import HardSkillsVisualization from '@/components/ui/HardSkillsVisualization' // <-- Passe den Pfad ggf. an
+import HardSkillsVisualization from '@/components/ui/HardSkillsVisualization'
 
 // Daten-Imports
 import {
@@ -26,13 +28,12 @@ import {
   WORK_EXPERIENCE,
   EDUCATION,
   BLOG_POSTS,
-  // EMAIL, // wird nur im Header genutzt
   SOCIAL_LINKS,
-  EducationEntry, // Import specific type if needed
-  WorkExperience as WorkExperienceType // Alias type to avoid naming conflict with component
-} from './data' // Assuming data.tsx is in the same directory or adjust path
+  EducationEntry,
+  WorkExperience as WorkExperienceType
+} from './data'
 
-// Animation-Variants
+// Animation-Variants (unverändert)
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
   visible: {
@@ -45,14 +46,13 @@ const VARIANTS_SECTION = {
   visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
 }
 const TRANSITION_SECTION = { duration: 0.3 }
-const TRANSITION_HOVER_CONTENT = { duration: 0.2 } // Animation duration for content switch
+const TRANSITION_HOVER_CONTENT = { duration: 0.2 }
 
+// Beispiel-Video-Komponente (unverändert)
 type ProjectVideoProps = {
   src: string
 }
-
 function ProjectVideo({ src }: ProjectVideoProps) {
-  // ... (ProjectVideo component remains the same)
   return (
     <MorphingDialog transition={{ type: 'spring', bounce: 0, duration: 0.3 }}>
       <MorphingDialogTrigger>
@@ -89,7 +89,7 @@ function ProjectVideo({ src }: ProjectVideoProps) {
   )
 }
 
-// Social Link (mit dünnem Rahmen)
+// Social-Link-Komponente (unverändert)
 function MagneticSocialLink({
   children,
   link,
@@ -97,14 +97,13 @@ function MagneticSocialLink({
   children: React.ReactNode
   link: string
 }) {
-  // ... (MagneticSocialLink component remains the same)
-   return (
+  return (
     <Magnetic springOptions={{ bounce: 0 }} intensity={0.3}>
       <a
         href={link}
-        target="_blank" // Added for external links
-        rel="noopener noreferrer" // Added for security
-        className="group relative inline-flex shrink-0 items-center gap-[1px] rounded-full border border-zinc-300 dark:border-zinc-600 px-2.5 py-1 text-sm text-black transition-all duration-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:text-zinc-100" // Added dark:text-zinc-100
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group relative inline-flex shrink-0 items-center gap-[1px] rounded-full border border-zinc-300 dark:border-zinc-600 px-2.5 py-1 text-sm text-black transition-all duration-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:text-zinc-100"
       >
         {children}
         <svg
@@ -127,270 +126,307 @@ function MagneticSocialLink({
   )
 }
 
-// Einleitungstext (ohne doppelte Namens-/Kontaktangaben)
+// Einleitungstext (unverändert)
 const markdownContent = `
 **Hallo und herzlich willkommen in meinem Online-Portfolio!**
 
 Ich freue mich sehr, dass du den Weg hierher gefunden hast. Ich bin Lion – und hier findest du alles Wichtige über mich und meine Projekte, klar, anschaulich und dynamisch präsentiert. *Garantiert spannender als ein herkömmlicher Lebenslauf!*
 `
 
-// Helper Function to render the content inside the box (Default or Details)
+// Helper Function zum Anzeigen von Default- oder Detail-Ansicht
 const renderBoxContent = (
-    item: EducationEntry | WorkExperienceType,
-    isHovered: boolean
+  item: EducationEntry | WorkExperienceType,
+  isHovered: boolean
 ) => {
-  const hasDetails = Boolean(item.details);
-
+  const hasDetails = Boolean(item.details)
   return (
     <AnimatePresence mode="wait" initial={false}>
       {isHovered && hasDetails ? (
-        // --- Details View ---
         <motion.div
-          key={`${item.id || item.title}-details`} // Use unique key
+          key={`${item.id || item.title}-details`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={TRANSITION_HOVER_CONTENT}
-          className="text-sm text-zinc-600 dark:text-zinc-400 p-4 leading-relaxed" // Use slightly smaller text for details
+          className="text-sm text-zinc-600 dark:text-zinc-400 p-4 leading-relaxed"
         >
           {item.details}
         </motion.div>
       ) : (
-        // --- Default View ---
         <motion.div
-          key={`${item.id || item.title}-default`} // Use unique key
+          key={`${item.id || item.title}-default`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={TRANSITION_HOVER_CONTENT}
-          className="relative flex w-full flex-col sm:flex-row justify-between p-4" // Use flex-col on small screens
+          className="relative flex w-full flex-col sm:flex-row justify-between p-4 pr-16"
         >
           <div className="mb-1 sm:mb-0">
-            <h4 className="font-normal dark:text-zinc-100">
-              {item.title}
-            </h4>
-            <p className="text-zinc-500 dark:text-zinc-400">
-              {item.company}
-            </p>
+            <h4 className="font-normal dark:text-zinc-100">{item.title}</h4>
+            <p className="text-zinc-500 dark:text-zinc-400">{item.company}</p>
           </div>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 shrink-0"> {/* Ensure date doesn't wrap unnecessarily */}
-            { 'end' in item && item.end ? `${item.start} - ${item.end}` : item.start }
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 shrink-0">
+            {'end' in item && item.end ? `${item.start} - ${item.end}` : item.start}
           </p>
         </motion.div>
       )}
     </AnimatePresence>
-  );
-};
+  )
+}
 
 // Definiere den Typ für die aktiven Fähigkeiten
-type ActiveSkillType = 'hard' | 'soft' | 'languages';
+type ActiveSkillType = 'hard' | 'soft' | 'languages'
 
 export default function Personal() {
-  // State für Lebenslauf-Sektion
   const [showEducation, setShowEducation] = useState(true)
-  // State für Hover-Effekt (gemeinsam für Ausbildung & Erfahrung)
-  const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
-  // State für Fähigkeiten-Sektion (ersetzt showSoftSkills)
-  const [activeSkillType, setActiveSkillType] = useState<ActiveSkillType>('hard'); // Standard: Hard Skills
+  const [hoveredItemId, setHoveredItemId] = useState<string | null>(null)
+  const [activeSkillType, setActiveSkillType] = useState<ActiveSkillType>('hard')
 
-  // CSS Klassen für Buttons (Active/Inactive)
-  const activeBtnClass = 'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800';
-  const inactiveBtnClass = 'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800';
-  const baseBtnClass = 'px-3 py-1 text-sm rounded transition-all duration-200';
-
-  // CSS Klassen für den Rahmen der Skill-Boxen
-  const skillBoxClasses = "p-4 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-950";
-
+  const activeBtnClass =
+    'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800'
+  const inactiveBtnClass =
+    'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+  const baseBtnClass = 'px-3 py-1 text-sm rounded transition-all duration-200'
+  const skillBoxClasses =
+    'p-4 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-950'
 
   return (
     <motion.main
-      className="max-w-3xl mx-auto px-4 space-y-12 pb-20" // Added pb-20 for bottom space
+      className="max-w-3xl mx-auto px-4 space-y-12 pb-20"
       variants={VARIANTS_CONTAINER}
       initial="hidden"
       animate="visible"
     >
       {/* Einleitung */}
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
+      <motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
         <div className="text-zinc-600 dark:text-zinc-400 text-base leading-relaxed">
           <ReactMarkdown>{markdownContent}</ReactMarkdown>
         </div>
       </motion.section>
 
       {/* Lebenslauf */}
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
+      <motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
         <h3 className="mb-3 text-lg font-semibold">Lebenslauf</h3>
-        {/* Buttons zum Umschalten */}
         <div className="flex space-x-2 mb-5">
-           <button
+          <button
             onClick={() => setShowEducation(true)}
-            className={`${baseBtnClass} ${ showEducation ? activeBtnClass : inactiveBtnClass }`}
+            className={`${baseBtnClass} ${showEducation ? activeBtnClass : inactiveBtnClass}`}
           >
             Ausbildung
           </button>
           <button
             onClick={() => setShowEducation(false)}
-            className={`${baseBtnClass} ${ !showEducation ? activeBtnClass : inactiveBtnClass }`}
+            className={`${baseBtnClass} ${!showEducation ? activeBtnClass : inactiveBtnClass}`}
           >
             Erfahrungen
           </button>
         </div>
 
-        {/* --- Ausbildung mit internem Hover-Effekt --- */}
         {showEducation && (
           <div className="flex flex-col space-y-2">
             {EDUCATION.map((edu) => {
-               // Ensure ID exists, generate fallback if necessary (though data.tsx has them)
-              const key = edu.id || `${edu.company}-${edu.title}`;
-              const hasDetails = Boolean(edu.details);
-
+              const key = edu.id || `${edu.company}-${edu.title}`
+              const hasDetails = Boolean(edu.details)
+              const hasCertificate = Boolean(edu.certificateUrl)
               return (
-                <div // Wrapper für Hover-Events
+                <div
                   key={key}
-                  className="relative block overflow-hidden rounded-md border border-zinc-300 dark:border-zinc-600 p-1" // Outer padding for spotlight effect maybe? Or keep p-0? Let's try p-1
-                  onMouseEnter={hasDetails ? () => setHoveredItemId(edu.id) : undefined}
+                  className="relative block overflow-hidden rounded-md border border-zinc-300 dark:border-zinc-600 p-1 group"
+                  onMouseEnter={() => setHoveredItemId(edu.id)}
                   onMouseLeave={() => setHoveredItemId(null)}
-                  // Add cursor pointer if details exist to indicate interactivity
-                  style={{ cursor: hasDetails ? 'pointer' : 'default' }}
+                  style={{ cursor: hasDetails || hasCertificate ? 'pointer' : 'default' }}
                 >
                   <Spotlight
                     className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
                     size={64}
                   />
-                  {/* Inner container for background and content switching */}
-                   <div className="relative h-full w-full rounded-md bg-white dark:bg-zinc-950 min-h-[80px] flex items-center"> {/* Added min-height and flex for alignment */}
-                     {/* Use helper function to render content */}
-                     {renderBoxContent(edu, hoveredItemId === edu.id)}
-                   </div>
+                  {/* Hauptinhaltsbereich */}
+                  <div className="relative h-full w-full rounded-md bg-white dark:bg-zinc-950 min-h-[80px] flex items-center">
+                    {renderBoxContent(edu, hoveredItemId === edu.id && hasDetails)}
+                  </div>
+
+                  {/* Kleine Hover-Box für Zertifikat */}
+                  <AnimatePresence>
+                    {hoveredItemId === edu.id && hasCertificate && (
+                      <motion.a
+                        href={edu.certificateUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Zertifikat öffnen"
+                        className="absolute top-1 right-1 bottom-1 w-10
+                                   bg-white/20 dark:bg-zinc-800/20
+                                   backdrop-blur-md
+                                   border-l border-zinc-300 dark:border-zinc-600
+                                   rounded-r-md
+                                   flex items-center justify-center
+                                   cursor-pointer z-10"
+                        initial={{ opacity: 0, x: 15 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 15 }}
+                        transition={{ duration: 0.2, ease: 'easeInOut' }}
+                        onMouseEnter={() => setHoveredItemId(edu.id)}
+                      >
+                        <EyeIcon className="h-4 w-4 text-zinc-600 dark:text-zinc-400 transition-colors" />
+                      </motion.a>
+                    )}
+                  </AnimatePresence>
                 </div>
-              );
+              )
             })}
           </div>
         )}
 
-        {/* --- Erfahrungen mit internem Hover-Effekt --- */}
         {!showEducation && (
           <div className="flex flex-col space-y-2">
             {WORK_EXPERIENCE.map((job) => {
-              const key = job.id || `${job.company}-${job.title}`; // Use ID if available
-              const hasDetails = Boolean(job.details);
-              const hasLink = Boolean(job.link); // Check if there's a link
-
-              // Decide the wrapper element based on link presence
-               const WrapperElement = hasLink ? 'a' : 'div';
-               const wrapperProps = hasLink ? { href: job.link, target: '_blank', rel: 'noopener noreferrer' } : {};
-
-
+              const key = job.id || `${job.company}-${job.title}`
+              const hasDetails = Boolean(job.details)
+              const hasLink = Boolean(job.link)
+              const WrapperElement = hasLink ? 'a' : 'div'
+              const wrapperProps = hasLink
+                ? { href: job.link, target: '_blank', rel: 'noopener noreferrer' }
+                : {}
               return (
-                 <WrapperElement // Use 'a' or 'div'
+                <WrapperElement
                   key={key}
-                  className="relative block overflow-hidden rounded-md border border-zinc-300 dark:border-zinc-600 p-1 group" // Add group for potential future link styling
-                  onMouseEnter={hasDetails ? () => setHoveredItemId(job.id!) : undefined} // Assuming ID exists if details exist
+                  className="relative block overflow-hidden rounded-md border border-zinc-300 dark:border-zinc-600 p-1 group"
+                  onMouseEnter={hasDetails ? () => setHoveredItemId(job.id!) : undefined}
                   onMouseLeave={() => setHoveredItemId(null)}
-                   // Add cursor pointer if details OR link exist
-                  style={{ cursor: (hasDetails || hasLink) ? 'pointer' : 'default' }}
-                  {...wrapperProps} // Spread link props if it's an 'a' tag
+                  style={{ cursor: hasDetails || hasLink ? 'pointer' : 'default' }}
+                  {...wrapperProps}
                 >
                   <Spotlight
                     className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
                     size={64}
                   />
-                   {/* Inner container */}
-                  <div className="relative h-full w-full rounded-md bg-white dark:bg-zinc-950 min-h-[80px] flex items-center"> {/* Added min-height and flex */}
-                     {/* Use helper function */}
+                  <div className="relative h-full w-full rounded-md bg-white dark:bg-zinc-950 min-h-[80px] flex items-center">
                     {renderBoxContent(job, hoveredItemId === job.id)}
                   </div>
                 </WrapperElement>
-              );
+              )
             })}
           </div>
         )}
       </motion.section>
 
       {/* Fähigkeiten */}
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
+      <motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
         <h3 className="mb-3 text-lg font-semibold">Fähigkeiten</h3>
-        {/* --- Buttons zum Umschalten (jetzt mit 3 Optionen) --- */}
         <div className="flex space-x-2 mb-5">
-          {/* Hard Skills Button */}
           <button
             onClick={() => setActiveSkillType('hard')}
-            className={`${baseBtnClass} ${ activeSkillType === 'hard' ? activeBtnClass : inactiveBtnClass }`}
+            className={`${baseBtnClass} ${activeSkillType === 'hard' ? activeBtnClass : inactiveBtnClass}`}
           >
             Hard Skills
           </button>
-           {/* Soft Skills Button */}
           <button
             onClick={() => setActiveSkillType('soft')}
-            className={`${baseBtnClass} ${ activeSkillType === 'soft' ? activeBtnClass : inactiveBtnClass }`}
+            className={`${baseBtnClass} ${activeSkillType === 'soft' ? activeBtnClass : inactiveBtnClass}`}
           >
             Soft Skills
           </button>
-          {/* --- NEU: Sprachen Button --- */}
           <button
             onClick={() => setActiveSkillType('languages')}
-            className={`${baseBtnClass} ${ activeSkillType === 'languages' ? activeBtnClass : inactiveBtnClass }`}
+            className={`${baseBtnClass} ${activeSkillType === 'languages' ? activeBtnClass : inactiveBtnClass}`}
           >
             Sprachen
           </button>
         </div>
 
-        {/* --- Bedingte Anzeige basierend auf activeSkillType --- */}
         <AnimatePresence mode="wait">
           {activeSkillType === 'soft' && (
-             // --- Soft Skills Anzeige ---
             <motion.div
               key="soft"
-              initial={{ opacity: 0 }} // Einfaches Fade-in für den Bereich
+              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {/* --- NEU: Wrapper Div für Rahmen und Hintergrund --- */}
               <div className={skillBoxClasses}>
                 <SoftSkillsVisualization />
               </div>
             </motion.div>
           )}
           {activeSkillType === 'hard' && (
-             // --- Hard Skills Anzeige ---
             <motion.div
               key="hard"
-              initial={{ opacity: 0 }} // Einfaches Fade-in für den Bereich
+              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {/* --- NEU: Wrapper Div für Rahmen und Hintergrund --- */}
-               <div className={skillBoxClasses}>
+              <div className={skillBoxClasses}>
                 <HardSkillsVisualization />
-               </div>
+              </div>
             </motion.div>
           )}
-           {/* --- Sprachen Anzeige --- */}
           {activeSkillType === 'languages' && (
             <motion.div
               key="languages"
-              initial={{ opacity: 0 }} // Einfaches Fade-in
+              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {/* Darstellung der Sprachen mit Rahmen (wie im Bild) */}
-              {/* Hier verwenden wir die skillBoxClasses für Konsistenz, passen aber ggf. innere Layouts an */}
-              <div className={`${skillBoxClasses} grid grid-cols-2 gap-x-4 gap-y-2`}>
-                  <p className="text-zinc-800 dark:text-zinc-200">Englisch</p>
-                  <p className="text-zinc-800 dark:text-zinc-200">Spanisch</p>
-                  <p className="text-zinc-800 dark:text-zinc-200">Französisch</p>
-                  <p className="text-zinc-800 dark:text-zinc-200">Japanisch</p>
+              {/* Sprach-Kacheln */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {languages.map((lang) => (
+                  <motion.div
+                    key={lang.name}
+                    className="relative overflow-hidden p-4 border border-zinc-300 dark:border-zinc-600 rounded-md bg-white dark:bg-zinc-950 hover:shadow-lg transition-shadow duration-300"
+                    initial="rest"
+                    animate="rest"
+                    whileHover="hover"
+                  >
+                    {/* Block 1: Name, Level & Beschreibung (sichtbar in Ruhe) */}
+                    <motion.div
+                      variants={{
+                        rest: { opacity: 1 },
+                        hover: { opacity: 0 },
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">
+                          {lang.name}
+                        </h4>
+                        <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                          ({lang.level})
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                        {lang.description}
+                      </p>
+                    </motion.div>
+                    {/* Block 2: Nur der Sprachname + scrollender Text (sichtbar bei Hover) */}
+                    <motion.div
+                      className="absolute inset-0 p-4"
+                      variants={{
+                        rest: { opacity: 0 },
+                        hover: { opacity: 1 },
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <h4 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">
+                        {lang.name}
+                      </h4>
+                      <div className="relative mt-4 overflow-hidden h-12">
+                        <motion.div
+                          initial={{ x: '100%' }}
+                          animate={{ x: '-100%' }}
+                          transition={{
+                            duration: 8,
+                            ease: 'linear',
+                            repeat: Infinity,
+                          }}
+                          className="whitespace-nowrap text-lg italic text-zinc-600 dark:text-zinc-300"
+                        >
+                          {lang.sequence}
+                        </motion.div>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           )}
@@ -398,11 +434,8 @@ export default function Personal() {
       </motion.section>
 
       {/* Projekte */}
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-         <h3 className="mb-3 text-lg font-semibold">Selected Projects</h3>
+      <motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
+        <h3 className="mb-3 text-lg font-semibold">Selected Projects</h3>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {PROJECTS.map((project) => (
             <div key={project.id} className="space-y-2">
@@ -417,7 +450,7 @@ export default function Personal() {
                   rel="noopener noreferrer"
                 >
                   {project.name}
-                  <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 dark:bg-zinc-50 transition-all duration-200 group-hover:max-w-full"></span> {/* Added dark:bg-zinc-50 */}
+                  <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 dark:bg-zinc-50 transition-all duration-200 group-hover:max-w-full"></span>
                 </a>
                 <p className="text-base text-zinc-600 dark:text-zinc-400">
                   {project.description}
@@ -429,31 +462,24 @@ export default function Personal() {
       </motion.section>
 
       {/* Blog */}
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
+      <motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
         <h3 className="mb-3 text-lg font-semibold">Blog</h3>
         <div className="flex flex-col space-y-0">
           <AnimatedBackground
             enableHover
-            className="h-full w-full rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden" // Added overflow-hidden
+            className="h-full w-full rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden"
             transition={{ type: 'spring', bounce: 0, duration: 0.2 }}
           >
             {BLOG_POSTS.map((post) => (
               <Link
                 key={post.uid}
-                className="-mx-3 rounded-xl px-3 py-3 block hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-colors duration-150" // Added block, hover styles, transition
+                className="-mx-3 rounded-xl px-3 py-3 block hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-colors duration-150"
                 href={post.link}
-                data-id={post.uid} // data-id is likely for AnimatedBackground, keep it
+                data-id={post.uid}
               >
                 <div className="flex flex-col space-y-1">
-                  <h4 className="font-normal dark:text-zinc-100">
-                    {post.title}
-                  </h4>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400"> {/* Adjusted text size */}
-                    {post.description}
-                  </p>
+                  <h4 className="font-normal dark:text-zinc-100">{post.title}</h4>
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">{post.description}</p>
                 </div>
               </Link>
             ))}
@@ -462,15 +488,12 @@ export default function Personal() {
       </motion.section>
 
       {/* Connect */}
-      <motion.section
-        variants={VARIANTS_SECTION}
-        transition={TRANSITION_SECTION}
-      >
-         <h3 className="mb-3 text-lg font-semibold">Connect</h3>
+      <motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
+        <h3 className="mb-3 text-lg font-semibold">Connect</h3>
         <p className="mb-4 text-zinc-600 dark:text-zinc-400">
-          Du möchtest mehr über meine Projekte erfahren oder dich vernetzen? Dann schreib mir gerne oder folge mir auf meinen Kanälen! {/* Adjusted text slightly */}
+          Du möchtest mehr über meine Projekte erfahren oder dich vernetzen? Dann schreib mir gerne oder folge mir auf meinen Kanälen!
         </p>
-        <div className="flex flex-wrap items-center justify-start gap-3"> {/* Use gap for spacing, flex-wrap for smaller screens */}
+        <div className="flex flex-wrap items-center justify-start gap-3">
           {SOCIAL_LINKS.map((link) => (
             <MagneticSocialLink key={link.label} link={link.link}>
               {link.label}
