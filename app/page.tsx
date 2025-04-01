@@ -15,7 +15,7 @@ import {
   MorphingDialogContainer,
 } from '@/components/ui/morphing-dialog'
 
-// NEU: Filigranes Augensymbol statt FileTextIcon
+// Augensymbol
 import { XIcon, EyeIcon } from 'lucide-react'
 
 // Deine Visualisierungen
@@ -33,7 +33,7 @@ import {
   WorkExperience as WorkExperienceType
 } from './data'
 
-// Animation-Variants (unverändert)
+// Animation-Variants
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
   visible: {
@@ -48,7 +48,7 @@ const VARIANTS_SECTION = {
 const TRANSITION_SECTION = { duration: 0.3 }
 const TRANSITION_HOVER_CONTENT = { duration: 0.2 }
 
-// Beispiel-Video-Komponente (unverändert)
+// Beispiel-Video-Komponente
 type ProjectVideoProps = {
   src: string
 }
@@ -89,7 +89,7 @@ function ProjectVideo({ src }: ProjectVideoProps) {
   )
 }
 
-// Social-Link-Komponente (unverändert)
+// Social-Link-Komponente
 function MagneticSocialLink({
   children,
   link,
@@ -126,7 +126,7 @@ function MagneticSocialLink({
   )
 }
 
-// Einleitungstext (unverändert)
+// Einleitungstext
 const markdownContent = `
 **Hallo und herzlich willkommen in meinem Online-Portfolio!**
 
@@ -159,7 +159,7 @@ const renderBoxContent = (
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={TRANSITION_HOVER_CONTENT}
-          className="relative flex w-full flex-col sm:flex-row justify-between p-4 pr-16"
+          className="relative flex w-full flex-col sm:flex-row justify-between p-4 pr-16" // pr-16 für Platz rechts (Icon)
         >
           <div className="mb-1 sm:mb-0">
             <h4 className="font-normal dark:text-zinc-100">{item.title}</h4>
@@ -182,47 +182,19 @@ export default function Personal() {
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null)
   const [activeSkillType, setActiveSkillType] = useState<ActiveSkillType>('hard')
 
-  // Beispiel-Array für Sprachkenntnisse (unverändert)
+  // Beispiel-Array für Sprachkenntnisse
   const languages = [
-    {
-      name: 'Englisch',
-      level: 'C1',
-      description:
-        'Fließend in Wort und Schrift – ideal für internationale Geschäftsbeziehungen.',
-      sequence:
-        'I look forward to our fruitful collaboration. Can you keep up with this fast-paced text?'
-    },
-    {
-      name: 'Spanisch',
-      level: 'B2',
-      description:
-        'Gute Kenntnisse, besonders in Konversation und Leseverständnis.',
-      sequence:
-        'Estoy deseando colaborar contigo. ¿Puedes lesen diese spannende Sprachsequenz?'
-    },
-    {
-      name: 'Französisch',
-      level: 'B1',
-      description: 'Solide Grundkenntnisse und ein gutes Hörverständnis.',
-      sequence:
-        'Je suis prêt à relever des défis. Laisse-toi emporter par cette séquence langagière!'
-    },
-    {
-      name: 'Japanisch',
-      level: 'A2',
-      description: 'Grundkenntnisse, die sich stetig verbessern.',
-      sequence:
-        'はじめまして、よろしくお願いします。Diese fließende Sequenz zeigt dir mein Niveau!'
-    }
+    { name: 'Englisch', level: 'C1', description: 'Fließend in Wort und Schrift – ideal für internationale Geschäftsbeziehungen.', sequence: 'I look forward to our fruitful collaboration. Can you keep up with this fast-paced text?' },
+    { name: 'Spanisch', level: 'B2', description: 'Gute Kenntnisse, besonders in Konversation und Leseverständnis.', sequence: 'Estoy deseando colaborar contigo. ¿Puedes lesen diese spannende Sprachsequenz?' },
+    { name: 'Französisch', level: 'B1', description: 'Solide Grundkenntnisse und ein gutes Hörverständnis.', sequence: 'Je suis prêt à relever des défis. Laisse-toi emporter par cette séquence langagière!' },
+    { name: 'Japanisch', level: 'A2', description: 'Grundkenntnisse, die sich stetig verbessern.', sequence: 'はじめまして、よろしくお願いします。Diese fließende Sequenz zeigt dir mein Niveau!' }
   ]
 
-  const activeBtnClass =
-    'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800'
-  const inactiveBtnClass =
-    'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+  // Button- und Skillbox-Klassen
+  const activeBtnClass = 'border border-zinc-500 text-zinc-900 dark:border-zinc-500 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800'
+  const inactiveBtnClass = 'border border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
   const baseBtnClass = 'px-3 py-1 text-sm rounded-xl transition-all duration-200'
-  const skillBoxClasses =
-    'p-4 border border-zinc-300 dark:border-zinc-600 rounded-xl bg-white dark:bg-zinc-950'
+  const skillBoxClasses = 'p-4 border border-zinc-300 dark:border-zinc-600 rounded-xl bg-white dark:bg-zinc-950'
 
   return (
     <motion.main
@@ -256,19 +228,22 @@ export default function Personal() {
           </button>
         </div>
 
+        {/* Ausbildung */}
         {showEducation && (
           <div className="flex flex-col space-y-2">
             {EDUCATION.map((edu) => {
               const key = edu.id || `${edu.company}-${edu.title}`
               const hasDetails = Boolean(edu.details)
               const hasCertificate = Boolean(edu.certificateUrl)
+              const isInteractive = hasDetails || hasCertificate; // Bestimmt, ob das Element interaktiv ist
+
               return (
                 <div
                   key={key}
                   className="relative block overflow-hidden rounded-xl border border-zinc-300 dark:border-zinc-600 p-1 group"
-                  onMouseEnter={() => setHoveredItemId(edu.id)}
+                  onMouseEnter={() => isInteractive && setHoveredItemId(edu.id)} // Nur bei Interaktivität hovern
                   onMouseLeave={() => setHoveredItemId(null)}
-                  style={{ cursor: hasDetails || hasCertificate ? 'pointer' : 'default' }}
+                  style={{ cursor: isInteractive ? 'pointer' : 'default' }}
                 >
                   <Spotlight
                     className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
@@ -279,12 +254,12 @@ export default function Personal() {
                     {renderBoxContent(edu, hoveredItemId === edu.id && hasDetails)}
                   </div>
 
-                  {/* Kleine Hover-Box für Zertifikat */}
+                  {/* Kleine Hover-Box für Zertifikat (Link) */}
                   <AnimatePresence>
                     {hoveredItemId === edu.id && hasCertificate && (
                       <motion.a
                         href={edu.certificateUrl}
-                        target="_blank"
+                        target="_blank" // Zertifikate öffnen in neuem Tab
                         rel="noopener noreferrer"
                         title="Zertifikat öffnen"
                         className="absolute top-1 right-1 bottom-1 w-10 px-2
@@ -293,15 +268,33 @@ export default function Personal() {
                                    border-l border-zinc-300 dark:border-zinc-600
                                    rounded-r-xl
                                    flex items-center justify-center
-                                   cursor-pointer z-10"
+                                   cursor-pointer z-10" // z-10 hinzugefügt
                         initial={{ opacity: 0, x: 15 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 15 }}
                         transition={{ duration: 0.2, ease: 'easeInOut' }}
-                        onMouseEnter={() => setHoveredItemId(edu.id)}
                       >
                         <EyeIcon className="h-4 w-4 text-zinc-600 dark:text-zinc-400 transition-colors" />
                       </motion.a>
+                    )}
+                    {/* Kleine Hover-Box für Details (nur Indikator, kein Link) */}
+                    {hoveredItemId === edu.id && hasDetails && !hasCertificate && (
+                       <motion.div
+                         title="Details anzeigen"
+                         className="absolute top-1 right-1 bottom-1 w-10 px-2
+                                    bg-white/20 dark:bg-zinc-800/20
+                                    backdrop-blur-md
+                                    border-l border-zinc-300 dark:border-zinc-600
+                                    rounded-r-xl
+                                    flex items-center justify-center
+                                    pointer-events-none z-10" // pointer-events-none, da Hover auf Hauptdiv wirkt, z-10
+                         initial={{ opacity: 0, x: 15 }}
+                         animate={{ opacity: 1, x: 0 }}
+                         exit={{ opacity: 0, x: 15 }}
+                         transition={{ duration: 0.2, ease: 'easeInOut' }}
+                       >
+                         <EyeIcon className="h-4 w-4 text-zinc-600 dark:text-zinc-400 transition-colors" />
+                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -310,32 +303,65 @@ export default function Personal() {
           </div>
         )}
 
+        {/* Erfahrungen */}
         {!showEducation && (
           <div className="flex flex-col space-y-2">
             {WORK_EXPERIENCE.map((job) => {
               const key = job.id || `${job.company}-${job.title}`
               const hasDetails = Boolean(job.details)
               const hasLink = Boolean(job.link)
-              const WrapperElement = hasLink ? 'a' : 'div'
+              const isInteractive = hasDetails || hasLink; // Bestimmt, ob das Element interaktiv ist
+
+              // Wrapper-Element: <a> wenn Link vorhanden, sonst <div>
+              const WrapperElement = hasLink ? 'a' : 'div';
+              // --- HIER WURDE target:'_blank' ENTFERNT ---
               const wrapperProps = hasLink
-                ? { href: job.link, target: '_blank', rel: 'noopener noreferrer' }
-                : {}
+                ? { href: job.link, rel: 'noopener noreferrer' } // Öffnet im selben Tab
+                : {};
+
               return (
                 <WrapperElement
                   key={key}
                   className="relative block overflow-hidden rounded-xl border border-zinc-300 dark:border-zinc-600 p-1 group"
-                  onMouseEnter={hasDetails ? () => setHoveredItemId(job.id!) : undefined}
+                  onMouseEnter={() => isInteractive && setHoveredItemId(job.id!)} // Nur bei Interaktivität hovern
                   onMouseLeave={() => setHoveredItemId(null)}
-                  style={{ cursor: hasDetails || hasLink ? 'pointer' : 'default' }}
-                  {...wrapperProps}
+                  style={{ cursor: isInteractive ? 'pointer' : 'default' }}
+                  {...wrapperProps} // Fügt href, rel hinzu, falls <a>
                 >
                   <Spotlight
                     className="from-zinc-900 via-zinc-800 to-zinc-700 blur-2xl dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-50"
                     size={64}
                   />
                   <div className="relative h-full w-full rounded-xl bg-white dark:bg-zinc-950 min-h-[80px] flex items-center">
-                    {renderBoxContent(job, hoveredItemId === job.id)}
+                    {/* Rendert den Inhalt (Standard oder Details bei Hover) */}
+                    {renderBoxContent(job, hoveredItemId === job.id && hasDetails)}
                   </div>
+
+                  {/* Icon-Anzeige für Erfahrungen */}
+                  <AnimatePresence>
+                    {/* Zeige Icon, wenn Link ODER Details vorhanden sind und gehovert wird */}
+                    {hoveredItemId === job.id && isInteractive && (
+                      <motion.div
+                        // Kein Link hier, da der Wrapper schon <a> sein kann oder Hover Details zeigt
+                        title={hasLink ? "Link öffnen" : "Details anzeigen"} // Dynamischer Titel
+                        className="absolute top-1 right-1 bottom-1 w-10 px-2
+                                   bg-white/20 dark:bg-zinc-800/20
+                                   backdrop-blur-md
+                                   border-l border-zinc-300 dark:border-zinc-600
+                                   rounded-r-xl
+                                   flex items-center justify-center
+                                   pointer-events-none z-10" // Wichtig: pointer-events-none, damit der Link des Wrappers klickbar bleibt, z-10 für Sichtbarkeit
+                        initial={{ opacity: 0, x: 15 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 15 }}
+                        transition={{ duration: 0.2, ease: 'easeInOut' }}
+                      >
+                        <EyeIcon className="h-4 w-4 text-zinc-600 dark:text-zinc-400 transition-colors" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  {/* Ende Icon-Anzeige für Erfahrungen */}
+
                 </WrapperElement>
               )
             })}

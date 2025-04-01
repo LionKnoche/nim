@@ -176,7 +176,7 @@ export const EDUCATION: EducationEntry[] = [ // Typ EducationEntry verwenden
    details:
      'Schwerpunkte: Moderne japanische Gesellschaft, internationale Beziehungen Ostasiens, politische Theorie, quantitative Methoden. Aktueller Notenschnitt: 1.8.',
    id: 'edu-heinrich2',
-   // certificateUrl: '/pfad/zum/zertifikat1.pdf', // Beispiel
+   certificateUrl: '/docs/Zwischenprüfungszeugnis.pdf', // Beispiel
  },
  {
    company: 'Heinrich Heine Universität',
@@ -185,7 +185,7 @@ export const EDUCATION: EducationEntry[] = [ // Typ EducationEntry verwenden
    end: '2022',
    details: 'Fokus auf Öffentliches Recht und Steuerrecht. Wechsel des Studiengangs zur besseren Vereinbarkeit von Interessen.',
    id: 'edu-heinrich1',
-   // certificateUrl: '/pfad/zum/zertifikat2.pdf', // Beispiel
+   certificateUrl: '/docs/Zwischenprüfungszeugnis.pdf', 
  },
  {
    company: 'Universität Leipzig',
@@ -194,7 +194,7 @@ export const EDUCATION: EducationEntry[] = [ // Typ EducationEntry verwenden
    end: '2020',
    details: 'Erfolgreicher Abschluss der juristischen Zwischenprüfung. Grundlegende Kenntnisse im Zivil-, Straf- und Öffentlichen Recht erworben.Straf- und Öffentlichen Recht erworben.',
    id: 'edu-leipzig',
-   certificateUrl: '/zertifikate/ul_rechtswiss_grundstudium.pdf', // Beispiel aus vorheriger Antwort
+   certificateUrl: '/docs/Zwischenprüfungszeugnis.pdf', // Beispiel aus vorheriger Antwort
  },
  {
    company: 'Lore Lorentz Schule',
@@ -203,7 +203,7 @@ export const EDUCATION: EducationEntry[] = [ // Typ EducationEntry verwenden
    end: '2017',
    details: 'Leistungskurse: Betriebswirtschaftslehre, Englisch. Abiturientia 2017.',
    id: 'edu-abitur',
-   certificateUrl: '/zertifikate/abiturzeugnis.pdf', // Beispiel aus vorheriger Antwort
+   certificateUrl: '/zertifikate/Zwischenprüfungszeugnis.pdf', // Beispiel aus vorheriger Antwort
  },
 ];
 
