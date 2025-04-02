@@ -1,7 +1,8 @@
 'use client'
+// Import necessary types from framer-motion
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, Variants, Transition } from 'framer-motion' // Import Variants and Transition
 import Link from 'next/link'
 import { AnimatedBackground } from '@/components/ui/animated-background' // Placeholder
 import { Spotlight } from '@/components/ui/spotlight' // Placeholder
@@ -32,11 +33,11 @@ import {
   WorkExperience as WorkExperienceType,
 } from './data'
 
-// Animation Variants
-const VARIANTS_CONTAINER = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.15 } } };
-const VARIANTS_SECTION = { hidden: { opacity: 0, y: 20, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } };
-const TRANSITION_SECTION = { duration: 0.3 };
-const TRANSITION_HOVER_CONTENT = { duration: 0.2 };
+// Animation Variants (Typed)
+const VARIANTS_CONTAINER: Variants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.15 } } };
+const VARIANTS_SECTION: Variants = { hidden: { opacity: 0, y: 20, filter: 'blur(8px)' }, visible: { opacity: 1, y: 0, filter: 'blur(0px)' } };
+const TRANSITION_SECTION: Transition = { duration: 0.3 };
+const TRANSITION_HOVER_CONTENT: Transition = { duration: 0.2 };
 
 // Project Video Component
 type ProjectVideoProps = { src: string };
@@ -112,13 +113,39 @@ type ActiveSkillType = 'hard' | 'soft' | 'languages';
 // Frequency Bars Component
 function FrequencyBars({ isPlaying }: { isPlaying: boolean }) {
   const bars = Array.from({ length: 5 }, (_, i) => i);
-  const barVariants = {
-    paused: { height: '20%', transition: { duration: 0.2, ease: 'easeOut' } },
-    playing: { height: ['20%', '100%', '40%', '85%', '30%', '70%', '20%'], transition: { duration: 1, ease: 'easeInOut', repeat: Infinity, repeatType: 'loop' } }
+
+  // Define the transition for the 'playing' state separately with explicit type
+  const playingTransition: Transition = {
+      duration: 1,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      repeatType: 'loop' // This should be acceptable for the RepeatType
   };
+
+  // Define variants with explicit type
+  const barVariants: Variants = {
+    paused: {
+        height: '20%',
+        transition: { duration: 0.2, ease: 'easeOut' }
+    },
+    playing: {
+        height: ['20%', '100%', '40%', '85%', '30%', '70%', '20%'],
+        // Reference the separately defined transition object
+        transition: playingTransition
+    }
+  };
+
   return (
     <div className="flex items-end gap-1 h-4">
-      {bars.map((bar) => <motion.div key={bar} className="w-1 bg-zinc-400 dark:bg-red-500" variants={barVariants} animate={isPlaying ? 'playing' : 'paused'} initial="paused" />)}
+      {bars.map((bar) => (
+          <motion.div
+              key={bar}
+              className="w-1 bg-zinc-400 dark:bg-red-500"
+              variants={barVariants}
+              animate={isPlaying ? 'playing' : 'paused'}
+              initial="paused"
+          />
+      ))}
     </div>
   );
 }
@@ -156,7 +183,7 @@ type Ball = {
 };
 
 // ------------------------------------------------------------------------
-// TennisAnimation Component (unchanged from previous version)
+// TennisAnimation Component
 // ------------------------------------------------------------------------
 function TennisAnimation() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -169,7 +196,7 @@ function TennisAnimation() {
     const isGameOver = useRef<boolean>(false);
     const finalTime = useRef<number>(0);
     const nextBallId = useRef<number>(0);
-    const maxSpeed = 8;
+    const maxSpeed = 8; // Maximum horizontal speed
 
     const createBall = (canvas: HTMLCanvasElement, ballIndex: number): Ball => {
         nextBallId.current += 1;
@@ -217,6 +244,7 @@ function TennisAnimation() {
             if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) { ball.y = (ball.y - ball.radius < 0) ? ball.radius : canvas.height - ball.radius; ball.dy *= -1; }
             if (ball.x - ball.radius < paddle.current.x + paddle.current.width && ball.x - ball.radius > paddle.current.x && ball.y > paddle.current.y && ball.y < paddle.current.y + paddle.current.height && ball.dx < 0) {
                 ball.x = paddle.current.x + paddle.current.width + ball.radius; ball.dx *= -1;
+                // Increase speed on paddle hit
                 ball.dx *= 1.02;
                 if (Math.abs(ball.dx) > maxSpeed) { ball.dx = maxSpeed * Math.sign(ball.dx); }
             }
@@ -233,7 +261,7 @@ function TennisAnimation() {
         ctx.fillRect(wallX.current, 0, 5, canvas.height);
         balls.current.forEach(ball => { ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2); ctx.fill(); ctx.closePath(); });
         animationFrameId.current = requestAnimationFrame(() => gameLoop(ctx, canvas));
-    }, [drawGameOverScreen]);
+    }, [drawGameOverScreen]); // Dependency
 
     useEffect(() => {
         const canvas = canvasRef.current; if (!canvas) return;
@@ -257,7 +285,7 @@ function TennisAnimation() {
             if (ballIntervalId.current) clearInterval(ballIntervalId.current);
             canvas.removeEventListener('mousemove', handleMouseMove);
         };
-    }, [gameLoop, addBall]);
+    }, [gameLoop, addBall]); // Dependencies
 
     return (
         <>
@@ -270,37 +298,30 @@ function TennisAnimation() {
 }
 
 // ------------------------------------------------------------------------
-// ArtGallery Component: Displays images using CSS Columns
+// ArtGallery Component
 // ------------------------------------------------------------------------
 type ImageItem = {
     id: string | number;
     src: string;
     alt: string;
-    width: number; // Optional, but useful for aspect ratio
-    height: number; // Optional, but useful for aspect ratio
+    width: number;
+    height: number;
 };
 
 function ArtGallery({ images }: { images: ImageItem[] }) {
     if (!images || images.length === 0) {
         return <p className="text-sm text-zinc-500 dark:text-zinc-400">Keine Kunstwerke vorhanden.</p>;
     }
-
     return (
-        // Use Tailwind CSS for column layout
-        // Adjust column count for different screen sizes (e.g., 2 on small, 3 on medium+)
         <div className="columns-2 md:columns-3 gap-4">
             {images.map((image) => (
-                <div key={image.id} className="mb-4 break-inside-avoid"> {/* Prevent images from breaking across columns */}
+                <div key={image.id} className="mb-4 break-inside-avoid">
                     <img
                         src={image.src}
                         alt={image.alt}
-                        className="w-full h-auto object-cover rounded-lg shadow-md" // Rounded corners and shadow
-                        // Optional: Add width/height for better initial rendering if available
-                        // width={image.width}
-                        // height={image.height}
-                        loading="lazy" // Lazy load images
+                        className="w-full h-auto object-cover rounded-lg shadow-md"
+                        loading="lazy"
                         onError={(e) => {
-                          // Fallback for broken images
                           const target = e.target as HTMLImageElement;
                           target.src = `https://placehold.co/${image.width || 300}x${image.height || 200}/EEE/31343C?text=Bild+nicht+gefunden`;
                           target.alt = "Platzhalterbild: Bild konnte nicht geladen werden";
@@ -337,15 +358,13 @@ export default function Personal() {
 
    // --- Placeholder Data for Art Gallery ---
    const kunstImageData: ImageItem[] = [
-    { id: 1, src: '/kunst/img1.png', alt: 'Abstrakte Kunst 1', width: 600, height: 400 },
-    { id: 2, src: '/kunst/img2.png', alt: 'Porträtzeichnung', width: 300, height: 450 },
-    { id: 3, src: '/kunst/img3.png', alt: 'Landschaftsmalerei', width: 500, height: 300 },
-    { id: 4, src: '/kunst/img4.png', alt: 'Foto einer Skulptur', width: 400, height: 400 },
-    { id: 5, src: '/kunst/img5.png', alt: 'Stillleben', width: 350, height: 500 },
-    { id: 6, src: '/kunst/img6.png', alt: 'Digitale Kunst', width: 600, height: 350 },
-    { id: 7, src: '/kunst/img7.png', alt: 'Abstrakte Kunst 2', width: 400, height: 600 },
-    { id: 8, src: '/kunst/img8.png', alt: 'Abstrakte Kunst 2', width: 400, height: 600 },
-    { id: 9, src: '/kunst/img9.png', alt: 'Abstrakte Kunst 2', width: 400, height: 600 },
+    { id: 1, src: 'https://placehold.co/600x400/a2d2ff/31343C?text=Abstrakt+1', alt: 'Abstrakte Kunst 1', width: 600, height: 400 },
+    { id: 2, src: 'https://placehold.co/300x450/bde0fe/31343C?text=Portrait', alt: 'Porträtzeichnung', width: 300, height: 450 },
+    { id: 3, src: 'https://placehold.co/500x300/ffafcc/31343C?text=Landschaft', alt: 'Landschaftsmalerei', width: 500, height: 300 },
+    { id: 4, src: 'https://placehold.co/400x400/ffc8dd/31343C?text=Skulptur', alt: 'Foto einer Skulptur', width: 400, height: 400 },
+    { id: 5, src: 'https://placehold.co/350x500/cdb4db/31343C?text=Stillleben', alt: 'Stillleben', width: 350, height: 500 },
+    { id: 6, src: 'https://placehold.co/600x350/fcf6bd/31343C?text=Digital+Art', alt: 'Digitale Kunst', width: 600, height: 350 },
+    { id: 7, src: 'https://placehold.co/400x600/d0f4de/31343C?text=Abstrakt+2', alt: 'Abstrakte Kunst 2', width: 400, height: 600 },
    ];
 
 
@@ -487,7 +506,7 @@ export default function Personal() {
           {/* Updated Art Section */}
           {activeHobby === 'kunst' && (
             <motion.div key="kunst" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }}>
-              {/* Use skillBoxClasses for padding/border, or remove if gallery handles it */}
+              {/* Use skillBoxClasses for padding/border */}
               <div className={skillBoxClasses}>
                  <ArtGallery images={kunstImageData} />
               </div>
