@@ -358,13 +358,15 @@ export default function Personal() {
 
    // --- Placeholder Data for Art Gallery ---
    const kunstImageData: ImageItem[] = [
-    { id: 1, src: 'https://placehold.co/600x400/a2d2ff/31343C?text=Abstrakt+1', alt: 'Abstrakte Kunst 1', width: 600, height: 400 },
-    { id: 2, src: 'https://placehold.co/300x450/bde0fe/31343C?text=Portrait', alt: 'Porträtzeichnung', width: 300, height: 450 },
-    { id: 3, src: 'https://placehold.co/500x300/ffafcc/31343C?text=Landschaft', alt: 'Landschaftsmalerei', width: 500, height: 300 },
-    { id: 4, src: 'https://placehold.co/400x400/ffc8dd/31343C?text=Skulptur', alt: 'Foto einer Skulptur', width: 400, height: 400 },
-    { id: 5, src: 'https://placehold.co/350x500/cdb4db/31343C?text=Stillleben', alt: 'Stillleben', width: 350, height: 500 },
-    { id: 6, src: 'https://placehold.co/600x350/fcf6bd/31343C?text=Digital+Art', alt: 'Digitale Kunst', width: 600, height: 350 },
-    { id: 7, src: 'https://placehold.co/400x600/d0f4de/31343C?text=Abstrakt+2', alt: 'Abstrakte Kunst 2', width: 400, height: 600 },
+    { id: 1, src: '/kunst/img1.png', alt: 'Abstrakte Kunst 1', width: 600, height: 400 },
+    { id: 2, src: '/kunst/img2.png', alt: 'Porträtzeichnung', width: 300, height: 450 },
+    { id: 3, src: '/kunst/img3.png', alt: 'Landschaftsmalerei', width: 500, height: 300 },
+    { id: 4, src: '/kunst/img4.png', alt: 'Foto einer Skulptur', width: 400, height: 400 },
+    { id: 5, src: '/kunst/img5.png', alt: 'Stillleben', width: 350, height: 500 },
+    { id: 6, src: '/kunst/img6.png', alt: 'Digitale Kunst', width: 600, height: 350 },
+    { id: 7, src: '/kunst/img7.png', alt: 'Abstrakte Kunst 2', width: 400, height: 600 },
+    { id: 8, src: '/kunst/img8.png', alt: 'Abstrakte Kunst 2', width: 400, height: 600 },
+    { id: 9, src: '/kunst/img9.png', alt: 'Abstrakte Kunst 2', width: 400, height: 600 },
    ];
 
 
