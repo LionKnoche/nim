@@ -13,6 +13,7 @@ import {
  SiAdobeillustrator,
  SiAdobepremierepro,
  SiNextdotjs, // Next.js Icon
+ SiPython, // Python Icon
 } from 'react-icons/si';
 import { LuBrainCircuit } from 'react-icons/lu'; // Beispiel für Kreativität/Problemlösung
 import { PiUsersThree } from 'react-icons/pi'; // Beispiel für Teamwork
@@ -94,29 +95,26 @@ export type HardSkill = {
 // Projekte
 export const PROJECTS: Project[] = [
  {
-   name: 'Motion Primitives Pro',
-   description:
-     'Advanced components and templates to craft beautiful websites.',
-   link: 'https://pro.motion-primitives.com/',
-   video:
-     'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/newProfileItem/d898be8a-7037-4c71-af0c-8997239b050d.mp4?_a=DATAdtAAZAA0',
-   id: 'project1',
+   name: 'Makeup by Mia',
+   description: 'Professionelle Makeup-Artist Website mit Portfolio und Buchungssystem.',
+   link: 'https://makeupbymia.de/',
+   video: 'https://makeupbymia.de/',
+   id: 'makeupbymia',
  },
  {
-   name: 'Motion Primitives',
-   description: 'UI kit to make beautiful, animated interfaces.',
-   link: 'https://motion-primitives.com/',
-   video:
-     'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/XSfIvT7BUWbPRXhrbLed/ee6871c9-8400-49d2-8be9-e32675eabf7e.mp4?_a=DATAdtAAZAA0',
-   id: 'project2',
+   name: 'On Things',
+   description: 'Ein persönlicher Blog, entwickelt mit Next.js und gehostet auf Vercel.',
+   link: 'https://vercel.com/lionknoches-projects/my-vercel-blog',
+   video: '/images/onthings.jpeg',
+   id: 'vercelblog',
  },
 ];
 
 // Berufserfahrung
 export const WORK_EXPERIENCE: WorkExperience[] = [
    {
-   company: 'Werkstudent',
-   title: 'Choya Umeshu Germany',
+   company: 'Choya Umeshu Germany',
+   title: 'Werkstudent',
    start: '2024',
    end: 'Present',
    link: '/blog/Werkstudent_Choya',
@@ -124,8 +122,8 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
    id: 'work1',
  },
  {
-   company: 'Werkstudent',
-   title: 'Sushi Matsumoto',
+   company: 'Sushi Matsumoto',
+   title: 'Werkstudent',
    start: '2022',
    end: '2024',
    link: '/blog/Werkstudent_Sushi_Matsumoto',
@@ -133,8 +131,8 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
    id: 'work2',
  },
  {
-   company: 'Verwaltungspraktikum',
-   title: 'Finanzamt Hilden',
+   company: 'Finanzamt Hilden',
+   title: 'Verwaltungspraktikum',
    start: '2021',
    link: '/blog/Finanzamt_Hilden',
    details: 'Einblicke in die Bearbeitung von Steuererklärungen und Verwaltungsabläufe.', // Beispiel Detail
@@ -213,31 +211,29 @@ export const BLOG_POSTS: BlogPost[] = [
    title: 'Die Kunst des Kamon: Identität in Mustern',
    description:
      '15 March 2025 | Ein Blick in die faszinierende Welt der japanischen Familienwappen, ihre Geschichte, Bedeutung und ihren Einfluss auf die moderne Gesellschaft.',
-   link: '/blog/kamon-identitaet-in-mustern',
+   link: 'https://my-vercel-blog-livid.vercel.app/blog/die-zeitlose-eleganz-der-kamon-japans-familienwappen',
    uid: 'blog-1',
  },
  {
    title: 'Roland Barthes und der Mythos: Wie Bedeutungen manipuliert werden',
    description:
      '2 March 2025 | Mythen im Kontext des 21. Jahrhunderts und wie sie unsere Wahrnehmung prägen.',
-   link: '/blog/roland-barthes-mythos',
+   link: 'https://my-vercel-blog-livid.vercel.app/blog/roland-barthes-und-der-mythos-wie-bedeutungen-manipuliert-werden',
    uid: 'blog-2',
  },
  {
    title: 'Was ist eigentlich subsidiärer Schutz?',
    description:
      '17 February 2025 | Ein Überblick über Status, Debatten und Zahlen.',
-   link: '/blog/subsidiaerer-schutz',
+   link: 'https://my-vercel-blog-livid.vercel.app/blog/was-ist-eigentlich-subsidiarer-schutz',
    uid: 'blog-3',
  },
 ];
 
 // Social Links
 export const SOCIAL_LINKS: SocialLink[] = [
- { label: 'Github', link: 'https://github.com/your-github' }, // Bitte anpassen
- // { label: 'Twitter', link: 'https://twitter.com/your-twitter' }, // Bitte anpassen
- { label: 'LinkedIn', link: 'https://www.linkedin.com/in/your-linkedin' }, // Bitte anpassen
- // { label: 'Instagram', link: 'https://www.instagram.com/your-instagram' }, // Bitte anpassen
+ { label: 'Github', link: 'https://github.com/LionKnoche' },
+ { label: 'LinkedIn', link: 'https://www.linkedin.com/in/lion-knoche-653369301/?originalSubdomain=de' },
 ];
 
 // E-Mail
@@ -251,6 +247,7 @@ export const DETAILED_HARD_SKILLS: HardSkill[] = [
  { id: 'js', name: 'JavaScript', category: 'Webentwicklung', icon: <FaJsSquare size={20} /> },
  { id: 'nextjs', name: 'Next.js', category: 'Webentwicklung', icon: <SiNextdotjs size={20} /> },
  { id: 'react', name: 'React', category: 'Webentwicklung', icon: <FaReact size={20} /> },
+ { id: 'python', name: 'Python', category: 'Webentwicklung', icon: <SiPython size={20} /> },
 
  // Design
  { id: 'photoshop', name: 'Adobe Photoshop', category: 'Design', icon: <SiAdobephotoshop size={20} /> },

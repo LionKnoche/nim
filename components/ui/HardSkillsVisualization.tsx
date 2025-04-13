@@ -13,6 +13,7 @@ const skillGradients: { [key: string]: string } = {
   css: 'bg-gradient-to-tr from-blue-400 to-sky-500',
   js: 'bg-gradient-to-tr from-yellow-300 to-amber-400',
   office: 'bg-gradient-to-tr from-orange-400 via-red-400 to-rose-400',
+  python: 'bg-gradient-to-tr from-blue-400 via-yellow-400 to-blue-500',
   Webentwicklung: 'bg-gradient-to-tr from-emerald-200 via-teal-300 to-cyan-400',
   Design: 'bg-gradient-to-tr from-violet-200 via-purple-300 to-fuchsia-400',
   'Software & Tools': 'bg-gradient-to-tr from-lime-200 via-green-300 to-emerald-400',

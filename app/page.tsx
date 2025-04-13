@@ -42,6 +42,114 @@ const TRANSITION_HOVER_CONTENT: Transition = { duration: 0.2 };
 // Project Video Component
 type ProjectVideoProps = { src: string };
 function ProjectVideo({ src }: ProjectVideoProps) {
+  // Prüfen, ob es sich um eine Website handelt
+  const isWebsite = src.startsWith('http');
+  // Prüfen, ob es sich um ein Bild handelt
+  const isImage = src.endsWith('.jpeg') || src.endsWith('.jpg') || src.endsWith('.png');
+  
+  if (isWebsite) {
+    return (
+      <MorphingDialog transition={{ type: 'spring', bounce: 0, duration: 0.3 }}>
+        <MorphingDialogTrigger>
+          <div className="aspect-video w-full cursor-zoom-in rounded-xl overflow-hidden relative">
+            <div className="absolute inset-0 bg-black/20 hover:bg-black/10 transition-colors duration-200" />
+            <iframe 
+              src={src}
+              className="w-full h-full"
+              title="Website Preview"
+              loading="lazy"
+              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              style={{ 
+                transform: 'scale(0.5)',
+                transformOrigin: '0 0',
+                width: '200%',
+                height: '200%'
+              }}
+              onError={(e) => {
+                const target = e.target as HTMLIFrameElement;
+                target.style.display = 'none';
+                const fallback = document.createElement('div');
+                fallback.className = 'w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800';
+                fallback.innerHTML = `
+                  <div class="text-center p-4">
+                    <p class="text-zinc-600 dark:text-zinc-400">Vorschau nicht verfügbar</p>
+                    <a href="${src}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300">
+                      Seite öffnen
+                    </a>
+                  </div>
+                `;
+                target.parentNode?.insertBefore(fallback, target);
+              }}
+            />
+          </div>
+        </MorphingDialogTrigger>
+        <MorphingDialogContainer>
+          <MorphingDialogContent className="relative aspect-video rounded-2xl border border-zinc-200 dark:border-zinc-800 p-1">
+            <div className="w-full h-full overflow-auto">
+              <iframe 
+                src={src}
+                className="w-full h-full"
+                title="Website Preview"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                style={{ minHeight: '100vh' }}
+                onError={(e) => {
+                  const target = e.target as HTMLIFrameElement;
+                  target.style.display = 'none';
+                  const fallback = document.createElement('div');
+                  fallback.className = 'w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800';
+                  fallback.innerHTML = `
+                    <div class="text-center p-4">
+                      <p class="text-zinc-600 dark:text-zinc-400">Vorschau nicht verfügbar</p>
+                      <a href="${src}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300">
+                        Seite öffnen
+                      </a>
+                    </div>
+                  `;
+                  target.parentNode?.insertBefore(fallback, target);
+                }}
+              />
+            </div>
+          </MorphingDialogContent>
+          <MorphingDialogClose
+            className="fixed top-6 right-6 h-fit w-fit rounded-full border border-zinc-300 dark:border-zinc-600 bg-white p-1"
+            variants={{ initial: { opacity: 0 }, animate: { opacity: 1, transition: { delay: 0.3, duration: 0.1 } }, exit: { opacity: 0, transition: { duration: 0 } } }}
+          >
+            <XIcon className="h-5 w-5 text-zinc-500" />
+          </MorphingDialogClose>
+        </MorphingDialogContainer>
+      </MorphingDialog>
+    );
+  }
+
+  if (isImage) {
+    return (
+      <MorphingDialog transition={{ type: 'spring', bounce: 0, duration: 0.3 }}>
+        <MorphingDialogTrigger>
+          <img 
+            src={src} 
+            alt="Project Preview" 
+            className="aspect-video w-full cursor-zoom-in rounded-xl object-cover"
+          />
+        </MorphingDialogTrigger>
+        <MorphingDialogContainer>
+          <MorphingDialogContent className="relative aspect-video rounded-2xl border border-zinc-200 dark:border-zinc-800 p-1">
+            <img 
+              src={src} 
+              alt="Project Preview" 
+              className="w-full h-full rounded-xl object-contain"
+            />
+          </MorphingDialogContent>
+          <MorphingDialogClose
+            className="fixed top-6 right-6 h-fit w-fit rounded-full border border-zinc-300 dark:border-zinc-600 bg-white p-1"
+            variants={{ initial: { opacity: 0 }, animate: { opacity: 1, transition: { delay: 0.3, duration: 0.1 } }, exit: { opacity: 0, transition: { duration: 0 } } }}
+          >
+            <XIcon className="h-5 w-5 text-zinc-500" />
+          </MorphingDialogClose>
+        </MorphingDialogContainer>
+      </MorphingDialog>
+    );
+  }
+
   return (
     <MorphingDialog transition={{ type: 'spring', bounce: 0, duration: 0.3 }}>
       <MorphingDialogTrigger>
@@ -348,7 +456,7 @@ export default function Personal() {
     { name: 'Englisch', level: 'C1', description: 'Fließend in Wort und Schrift.', sequence: 'I look forward to our fruitful collaboration...' },
     { name: 'Spanisch', level: 'B2', description: 'Gute Kenntnisse.', sequence: 'Estoy deseando colaborar contigo...' },
     { name: 'Französisch', level: 'B1', description: 'Solide Grundkenntnisse.', sequence: 'Je suis prêt à relever des défis...' },
-    { name: 'Japanisch', level: 'A2', description: 'Grundkenntnisse.', sequence: 'はじめまして、よろしくお願いします...' },
+    { name: 'Japanisch', level: 'A2', description: 'Gute Kenntnisse.', sequence: 'はじめまして、よろしくお願いします...' },
   ];
   const musicTracks: MusicTrack[] = [
     { id: 'track1', title: 'Entspannter Song', src: '/audio/audio1.mp3' },
@@ -547,7 +655,7 @@ export default function Personal() {
          <div className="flex flex-col space-y-0">
            <AnimatedBackground enableHover className="h-full w-full rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden" transition={{ type: 'spring', bounce: 0, duration: 0.2 }}>
              {BLOG_POSTS.map((post) => (
-               <Link key={post.uid} className="-mx-3 rounded-xl px-3 py-3 block hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-colors duration-150" href={post.link} data-id={post.uid}>
+               <Link key={post.uid} className="-mx-3 rounded-xl px-3 py-3 block hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-colors duration-150" href={post.link} target="_blank" rel="noopener noreferrer" data-id={post.uid}>
                  <div className="flex flex-col space-y-1">
                    <h4 className="font-normal dark:text-zinc-100">{post.title}</h4>
                    <p className="text-sm text-zinc-500 dark:text-zinc-400">{post.description}</p>
