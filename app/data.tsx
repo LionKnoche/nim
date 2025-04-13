@@ -104,9 +104,9 @@ export const PROJECTS: Project[] = [
  {
    name: 'On Things',
    description: 'Ein persönlicher Blog, entwickelt mit Next.js und gehostet auf Vercel.',
-   link: 'https://vercel.com/lionknoches-projects/my-vercel-blog',
-   video: '/images/onthings.jpeg',
-   id: 'vercelblog',
+   link: 'https://on-things.org/',
+   video: 'https://on-things.org/',
+   id: 'onthings',
  },
 ];
 
