@@ -4,6 +4,7 @@ import { TextLoop } from '@/components/ui/text-loop'
 import { MonitorIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 const THEMES_OPTIONS = [
   {
@@ -68,17 +69,19 @@ function ThemeSwitch() {
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-zinc-100 px-0 py-4 dark:border-zinc-800">
-      <div className="flex items-center justify-between">
-        <a href="https://github.com/ibelick/nim" target="_blank">
-          <TextLoop className="text-xs text-zinc-500">
-            <span>© 2024 Nim.</span>
-            <span>Built with Motion-Primitives.</span>
-          </TextLoop>
-        </a>
-        <div className="text-xs text-zinc-400">
-          <ThemeSwitch />
+    <footer className="mt-8 border-t border-zinc-200 py-8 dark:border-zinc-800">
+      <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+          <Link
+            href="/impressum"
+            className="transition hover:text-zinc-900 dark:hover:text-zinc-50"
+          >
+            Impressum
+          </Link>
         </div>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          © {new Date().getFullYear()} Lion Knoche. All rights reserved.
+        </p>
       </div>
     </footer>
   )
