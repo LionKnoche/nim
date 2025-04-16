@@ -78,6 +78,12 @@ export function Footer() {
           >
             Impressum
           </Link>
+          <Link
+            href="/datenschutz"
+            className="transition hover:text-zinc-900 dark:hover:text-zinc-50"
+          >
+            Datenschutz
+          </Link>
         </div>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
           © {new Date().getFullYear()} Lion Knoche. All rights reserved.
