@@ -15,11 +15,22 @@ export const metadata: Metadata = {
   title: 'Lion Knoche - My Portfolio',
   description: 'Portfolio website of Lion Knoche, showcasing my work and projects.',
   authors: [{ name: 'Lion Knoche' }],
+  icons: {
+    icon: '/app/favicon.png',
+  },
   openGraph: {
     title: 'Lion Knoche - My Portfolio',
     description: 'Portfolio website of Lion Knoche, showcasing my work and projects.',
     type: 'website',
-    locale: 'en_US',
+    locale: 'de_DE',
+    images: [
+      {
+        url: '/app/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Lion Knoche Portfolio',
+      },
+    ],
   },
   robots: {
     index: true,
@@ -47,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="de" suppressHydrationWarning>
       <body
         className={`${geist.variable} ${geistMono.variable} bg-white tracking-tight antialiased dark:bg-zinc-950`}
       >
