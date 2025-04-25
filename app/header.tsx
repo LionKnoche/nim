@@ -64,7 +64,7 @@ export function Header() {
             </a>
           </p>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Tel: +49 525 52771470
+            Tel: +49 152 5277 1470
           </p>
         </div>
       </div>
