@@ -47,7 +47,7 @@ const HardSkillsVisualization: React.FC = () => {
 
         return (
           <div key={category} className="mb-6 last:mb-0">
-            <h4 className="text-md font-semibold mb-3 text-zinc-700 dark:text-zinc-300">
+            <h4 className="text-md font-semibold mb-3 text-white dark:text-white">
               {category}
             </h4>
             <div className="flex flex-wrap gap-3">
@@ -80,7 +80,7 @@ const HardSkillsVisualization: React.FC = () => {
                       hover:shadow-md hover:scale-[1.03]
                     `}
                   >
-                    <span className="shrink-0 w-5 h-5 flex items-center justify-center">
+                    <span className="shrink-0 w-5 h-5 flex items-center justify-center bg-white/20 dark:bg-gray-800/20 backdrop-filter backdrop-blur-md border border-white/20 dark:border-gray-700/20 rounded-full">
                     { React.cloneElement(skill.icon) }
                     </span>
                     <span>{skill.name}</span>

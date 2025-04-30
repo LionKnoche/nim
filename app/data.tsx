@@ -108,6 +108,20 @@ export const PROJECTS: Project[] = [
    video: 'https://on-things.org/',
    id: 'onthings',
  },
+ {
+   name: 'Kakimono',
+   description: 'Ein Notebookeditor mit integrierter KI-textprüfung und Übersetzungsfunktion basierend Google Cloud API.',
+   link: 'https://kakimono.app/',
+   video: 'https://kakimono.app/',
+   id: 'kakimono',
+ },
+ {
+  name: 'Portfolio',
+  description: 'Ein Portfolio für meine persönlichen Projekte.',
+  link: 'https://lionknoche.info/',
+  video: 'https://lionknoche.info/',
+  id: 'portfolio',
+},
 ];
 
 // Berufserfahrung
@@ -211,21 +225,21 @@ export const BLOG_POSTS: BlogPost[] = [
    title: 'Die Kunst des Kamon: Identität in Mustern',
    description:
      '15 March 2025 | Ein Blick in die faszinierende Welt der japanischen Familienwappen, ihre Geschichte, Bedeutung und ihren Einfluss auf die moderne Gesellschaft.',
-   link: 'https://my-vercel-blog-livid.vercel.app/blog/die-zeitlose-eleganz-der-kamon-japans-familienwappen',
+   link: 'https://on-things.org/blog/die-zeitlose-eleganz-der-kamon-japans-familienwappen',
    uid: 'blog-1',
  },
  {
    title: 'Roland Barthes und der Mythos: Wie Bedeutungen manipuliert werden',
    description:
      '2 March 2025 | Mythen im Kontext des 21. Jahrhunderts und wie sie unsere Wahrnehmung prägen.',
-   link: 'https://my-vercel-blog-livid.vercel.app/blog/roland-barthes-und-der-mythos-wie-bedeutungen-manipuliert-werden',
+   link: 'https://on-things.org/blog/roland-barthes-und-der-mythos-wie-bedeutungen-manipuliert-werden',
    uid: 'blog-2',
  },
  {
    title: 'Was ist eigentlich subsidiärer Schutz?',
    description:
      '17 February 2025 | Ein Überblick über Status, Debatten und Zahlen.',
-   link: 'https://my-vercel-blog-livid.vercel.app/blog/was-ist-eigentlich-subsidiarer-schutz',
+   link: 'https://on-things.org/blog/was-ist-eigentlich-subsidiarer-schutz',
    uid: 'blog-3',
  },
 ];

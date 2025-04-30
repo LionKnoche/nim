@@ -188,7 +188,7 @@ function MagneticSocialLink({ children, link }: { children: React.ReactNode; lin
 const markdownContent = `
 **Hallo und herzlich willkommen in meinem Online-Portfolio!**
 
-Ich freue mich sehr, dass du den Weg hierher gefunden hast. Ich bin Lion – und hier findest du alles Wichtige über mich und meine Projekte, klar, anschaulich und dynamisch präsentiert. *Garantiert spannender als ein herkömmlicher Lebenslauf!*
+Ich freue mich sehr, dass du den Weg hierher gefunden hast. Ich bin Lion – und hier findest du alles Wichtige **über mich** und **meine Projekte**, klar, anschaulich und dynamisch präsentiert. *Garantiert spannender als ein herkömmlicher Lebenslauf!*
 `;
 
 // CV Item Content Renderer
@@ -279,7 +279,7 @@ function MusicTrackCard({ track, isActive, onPlay }: { track: MusicTrack; isActi
         <span className="text-sm text-zinc-800 dark:text-zinc-100">{track.title}</span>
         <div className="ml-2"><FrequencyBars isPlaying={isActive} /></div>
       </div>
-      <audio ref={audioRef} src={track.src} preload="metadata" key={track.src} />
+      <audio ref={audioRef} src={track.src} preload="metadata" key={track.src} onEnded={() => onPlay(track.id)} />
     </div>
   );
 }
@@ -448,8 +448,26 @@ export default function Personal() {
   const [showEducation, setShowEducation] = useState(true);
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
   const [activeSkillType, setActiveSkillType] = useState<ActiveSkillType>('hard');
-  const [activeHobby, setActiveHobby] = useState<string | null>(null);
+  const [activeHobby, setActiveHobby] = useState<string | null>('musik');
   const [playingTrackId, setPlayingTrackId] = useState<string | null>(null);
+  const [tennisStarted, setTennisStarted] = useState(false);
+  const [artIndex, setArtIndex] = useState(0);
+
+  useEffect(() => {
+    if (activeHobby !== 'tennis') setTennisStarted(false);
+  }, [activeHobby]);
+
+  useEffect(() => {
+    let artInterval: NodeJS.Timeout;
+    if (activeHobby === 'kunst') {
+      artInterval = setInterval(() => {
+        setArtIndex(prev => (prev + 1) % kunstImageData.length);
+      }, 1000);
+    } else {
+      setArtIndex(0);
+    }
+    return () => clearInterval(artInterval);
+  }, [activeHobby]);
 
   // Data (example)
   const languages = [
@@ -459,9 +477,12 @@ export default function Personal() {
     { name: 'Japanisch', level: 'A2', description: 'Gute Kenntnisse.', sequence: 'はじめまして、よろしくお願いします...' },
   ];
   const musicTracks: MusicTrack[] = [
-    { id: 'track1', title: 'Entspannter Song', src: '/audio/audio1.mp3' },
-    { id: 'track2', title: 'Coole Vibes', src: '/audio/Girl_Boss.wav' },
-    { id: 'track3', title: 'Energie Pur', src: '/audio/song3.mp3' },
+    { id: 'track1', title: 'Fiesta Freestyle', src: '/audio/Fiesta.wav' },
+    { id: 'track2', title: 'Either Way', src: '/audio/Either way.wav' },
+    { id: 'track3', title: 'Ce soir', src: '/audio/Ce soir.wav' },
+    { id: 'track4', title: 'Lo que pasa', src: '/audio/Lo que pasa.mp3' },
+    { id: 'track5', title: 'Countdown', src: '/audio/Countdown.wav' },
+    { id: 'track6', title: 'Jungle', src: '/audio/Jungle.mp3' },
   ];
 
    // --- Placeholder Data for Art Gallery ---
@@ -572,7 +593,13 @@ export default function Personal() {
          </div>
          <AnimatePresence mode="wait">
            {activeSkillType === 'soft' && (<motion.div key="soft" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><div className={skillBoxClasses}><SoftSkillsVisualization /></div></motion.div>)}
-           {activeSkillType === 'hard' && (<motion.div key="hard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><div className={skillBoxClasses}><HardSkillsVisualization /></div></motion.div>)}
+           {activeSkillType === 'hard' && (
+             <motion.div key="hard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+               <div className={skillBoxClasses} style={{ backgroundImage: "url('/background/hardskills.png')", backgroundSize: 'cover', backgroundPosition: 'center',  }}>
+                 <HardSkillsVisualization />
+               </div>
+             </motion.div>
+           )}
            {activeSkillType === 'languages' && (
              <motion.div key="languages" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -607,24 +634,44 @@ export default function Personal() {
         <AnimatePresence mode="wait">
           {activeHobby === 'musik' && (
             <motion.div key="musik" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }}>
-              <div className={skillBoxClasses}>
+              <div className={skillBoxClasses} style={{ backgroundImage: "url('/background/audio.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
                 {musicTracks.map((track) => <MusicTrackCard key={track.id} track={track} isActive={track.id === playingTrackId} onPlay={handlePlayTrack} />)}
-                <p className="mt-3 text-xs text-zinc-400">(Hinweis: Audio-Dateien müssen im Ordner <code>/public/audio</code> liegen.)</p>
               </div>
             </motion.div>
           )}
-          {/* Updated Art Section */}
           {activeHobby === 'kunst' && (
             <motion.div key="kunst" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }}>
-              {/* Use skillBoxClasses for padding/border */}
               <div className={skillBoxClasses}>
-                 <ArtGallery images={kunstImageData} />
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={kunstImageData[artIndex].id}
+                    src={kunstImageData[artIndex].src}
+                    alt={kunstImageData[artIndex].alt}
+                    className="w-1/2 h-auto rounded-lg mx-auto"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1 }}
+                  />
+                </AnimatePresence>
               </div>
             </motion.div>
           )}
           {activeHobby === 'tennis' && (
             <motion.div key="tennis" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }} className={skillBoxClasses}>
-              <TennisAnimation />
+              {!tennisStarted ? (
+                <div className="flex items-center justify-center py-12">
+                  <button
+                    onClick={() => setTennisStarted(true)}
+                    className="px-4 py-2 border-2 border-white bg-black text-white uppercase tracking-widest hover:bg-gray-800 transition"
+                    style={{ fontFamily: '"Press Start 2P", monospace' }}
+                  >
+                    SPIELEN
+                  </button>
+                </div>
+              ) : (
+                <TennisAnimation />
+              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -632,7 +679,7 @@ export default function Personal() {
 
       {/* Projects */}
       <motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
-        <h3 className="mb-3 text-lg font-semibold">Selected Projects</h3>
+        <h3 className="mb-3 text-lg font-semibold">Meine Projekte</h3>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {PROJECTS.map((project) => (
             <div key={project.id} className="space-y-2">
